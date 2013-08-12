@@ -157,6 +157,11 @@
             this.nudCant.Name = "nudCant";
             this.nudCant.Size = new System.Drawing.Size(72, 20);
             this.nudCant.TabIndex = 1;
+            this.nudCant.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
             // 
             // tbTableName
             // 

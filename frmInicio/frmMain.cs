@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace frmInicio
@@ -105,7 +106,7 @@ namespace frmInicio
             List<string> lineas=new List<string>();
             foreach (string line in lines)
             {
-                if (line.Contains("@att"))
+                if (new Regex(@"{\d+}").IsMatch(line))
                 {
                     lineas.Add(reemplazar(line));
                 }
@@ -121,6 +122,17 @@ namespace frmInicio
 
         private string reemplazar(string line)
         {
+            Regex r=new Regex(@"{\d+}");
+            
+            MatchCollection collMatch=r.Matches(line);
+            
+            foreach (Match m in collMatch){
+                var n=m.Value;
+                int pos=int.Parse(n.Replace("{","").Replace("}",""));
+                line = line.Replace(m.Value, (flowLayoutPanel1.Controls[pos] as IAttributte).generate().ToString());
+            }
+
+            /*
             for (int i=0;i<line.Length;i++)
             {
                 if (line.IndexOf("@att", i) != -1)
@@ -129,7 +141,7 @@ namespace frmInicio
                     line = line.Replace("@att" + pos.ToString(),
                         (flowLayoutPanel1.Controls[pos] as IAttributte).generate().ToString());
                 }
-            }
+            }*/
             return line;
         }
 
